@@ -1,7 +1,12 @@
-import React from "react";
-import { Box, Flex } from "@chakra-ui/react";
+import { React, useContext } from "react";
+import { Box, Flex, Text } from "@chakra-ui/react";
+import ResultContext from "../Helper/Context";
+import { Navigate } from "react-router-dom";
+
 
 const ResultPage = () => {
+  const { result } = useContext(ResultContext);
+
   return (
     <Flex
       className="box"
@@ -11,6 +16,7 @@ const ResultPage = () => {
       my="3rem"
       justifyContent="space-around"
     >
+      {result == null ? <Navigate to='/home'/> : ""}
       <Box
         fontWeight="bold"
         h="80vh"
@@ -23,7 +29,9 @@ const ResultPage = () => {
         border="0.3rem solid #EE4266"
         p="0.5rem"
         overflow="scroll"
-      ></Box>
+      >
+        <Text style={{ whiteSpace: 'pre-wrap', margin: '20px' }}>{result.results}</Text>
+      </Box>
     </Flex>
   );
 };

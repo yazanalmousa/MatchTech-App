@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useContext } from "react";
 import {
   Box,
   Text,
@@ -13,8 +13,11 @@ import { BsUpload } from "react-icons/bs";
 import gsap from "gsap";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
+import ResultContext from "../Helper/Context";
 
 const Home = ({ onFileDrop }) => {
+  const { setResult } = useContext(ResultContext);
+
   const [navigate, setNavigate] = useState(false);
   useEffect(() => {
     gsap.registerEffect({
@@ -26,9 +29,8 @@ const Home = ({ onFileDrop }) => {
       extendTimeline: true, //now you can call the effect directly on any GSAP timeline to have the result immediately inserted in the position you define (default is sequenced at the end)
     });
 
-
     let tl = gsap.timeline();
-    tl.fade(".box", { duration: 3 }).fade(".box2", { duration: 1 },"-=2");
+    tl.fade(".box", { duration: 3 }).fade(".box2", { duration: 1 }, "-=2");
 
     // or directly on timelines:
   }, []);
@@ -66,6 +68,7 @@ const Home = ({ onFileDrop }) => {
         "http://127.0.0.1:8001/result/",
         formData
       );
+      setResult(response.data);
       console.log("File uploaded successfully", response.data);
     } catch (error) {
       console.error("Error uploading file", error);
