@@ -14,9 +14,11 @@ import gsap from "gsap";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 import ResultContext from "../Helper/Context";
+import { ColorRing } from "react-loader-spinner";
 
 const Home = ({ onFileDrop }) => {
   const { setResult } = useContext(ResultContext);
+  const [showLoading, setShowLoading] = useState(false);
 
   const [navigate, setNavigate] = useState(false);
   useEffect(() => {
@@ -60,6 +62,7 @@ const Home = ({ onFileDrop }) => {
     }
   };
   const handleGenerateClick = async () => {
+    setShowLoading(true);
     const formData = new FormData();
     formData.append("file", fileDropped);
 
@@ -91,129 +94,150 @@ const Home = ({ onFileDrop }) => {
     });
   };
   return (
-    <Flex
-      className="box"
-      flexDir={"row"}
-      gap={"70"}
-      mx={"3rem"}
-      my={"3rem"}
-      opacity={"0"}
-    >
-      {navigate && <Navigate to="/result" />}
-      <Box
-        h={"80vh"}
-        w={"0.2rem"}
-        flexDir={"column"}
-        borderRadius={"10px"}
-        flexGrow={"1"}
-        bg={"white"}
-        boxShadow="5px 5px rgba(0, 0, 0, 0.3)"
-      >
-        <Flex flexDir={"column"} gap={"10"} p="1rem">
-          <Heading fontSize={"1.5rem"} fontWeight={"bold"}>
-            TechMatch AI
-          </Heading>
-          <Text>Find Your Perfect Tech Stack with AI 🌐</Text>
-          <Text>
-            Powered by AI Insights 🧠 Effortlessly input your project
-            requirements and let our advanced AI algorithm recommend the optimal
-            technology stack. From frontend frameworks to backend services and
-            databases, discover a tailored set of tools designed to elevate your
-            project's success within minutes.
-          </Text>
-          <Heading fontSize={"1.5rem"} fontWeight={"bold"}>
-            Customize Your Tech Stack Discovery 🎨{" "}
-          </Heading>
-          <Text>
-            Prefer a specific programming language or have unique scalability
-            needs? Customize your query to align with your project's specific
-            requirements. Whether you're building a web app, mobile application,
-            or a complex software solution, our AI provides personalized
-            recommendations, ensuring you choose the best technologies to bring
-            your vision to life.
-          </Text>
-        </Flex>
-      </Box>
-      <Box
-        h={"80vh"}
-        flexDir={"colmun"}
-        borderRadius={"10px"}
-        flexGrow={"2"}
-        bg={"white"}
-        boxShadow="5px 5px rgba(0, 0, 0, 0.3)"
+    <>
+      {showLoading && (
+        <Box zIndex={"10"} h={"100vh"}>
+          <Flex h={"70vh"} flexDir={"column"} alignItems={"center"} p={"15rem"}>
+            <ColorRing
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="color-ring-loading"
+              wrapperStyle={{}}
+              wrapperClass="color-ring-wrapper"
+              colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
+            />
+            <Text color={"white"} fontWeight={"bold"} fontSize={"1.2rem"}>
+              Generating Your Results .....
+            </Text>
+          </Flex>
+        </Box>
+      )}
+      <Flex
+        className="box"
+        flexDir={"row"}
+        gap={"70"}
+        mx={"3rem"}
+        my={"3rem"}
         opacity={"0"}
-        className="box2"
+        overflow={'hidden'}
       >
-        <Flex flexDir={"column"} gap={"10"} p="1rem">
-          {!fileDropped && (
+        {navigate && <Navigate to="/result" />}
+        <Box
+          h={"80vh"}
+          w={"0.2rem"}
+          flexDir={"column"}
+          borderRadius={"10px"}
+          flexGrow={"1"}
+          bg={"white"}
+          boxShadow="5px 5px rgba(0, 0, 0, 0.3)"
+        >
+          <Flex flexDir={"column"} gap={"10"} p="1rem">
             <Heading fontSize={"1.5rem"} fontWeight={"bold"}>
-              Upload File:
+              TechMatch AI
             </Heading>
-          )}
-          {fileDropped && (
-            <Button
-              w={"7rem"}
-              h={"3rem"}
-              borderRadius={"1rem"}
-              bg={"#EE4266"}
-              color={"black"}
-              textShadow="0.5px 0.5px #EE4266"
-              onClick={handleGenerateClick}
-            >
-              Generate
-            </Button>
-          )}
-          <Input
-            type="file"
-            id="fileupload"
-            display={"none"}
-            onChange={handleFileUpload}
-          />
-          <FormLabel htmlFor="fileupload">
-            <Box
-              height={"34rem"}
-              border={"2px solid black"}
-              borderRadius={"10px"}
-              p={"1rem"}
-              onDragOver={handleDragOver}
-              onDrop={handleDrop}
-            >
-              <Flex
-                flexDir={"column"}
-                alignItems={"center"}
-                h="80%"
-                py={"6rem"}
+            <Text>Find Your Perfect Tech Stack with AI 🌐</Text>
+            <Text>
+              Powered by AI Insights 🧠 Effortlessly input your project
+              requirements and let our advanced AI algorithm recommend the
+              optimal technology stack. From frontend frameworks to backend
+              services and databases, discover a tailored set of tools designed
+              to elevate your project's success within minutes.
+            </Text>
+            <Heading fontSize={"1.5rem"} fontWeight={"bold"}>
+              Customize Your Tech Stack Discovery 🎨{" "}
+            </Heading>
+            <Text>
+              Prefer a specific programming language or have unique scalability
+              needs? Customize your query to align with your project's specific
+              requirements. Whether you're building a web app, mobile
+              application, or a complex software solution, our AI provides
+              personalized recommendations, ensuring you choose the best
+              technologies to bring your vision to life.
+            </Text>
+          </Flex>
+        </Box>
+        <Box
+          h={"80vh"}
+          flexDir={"colmun"}
+          borderRadius={"10px"}
+          flexGrow={"2"}
+          bg={"white"}
+          boxShadow="5px 5px rgba(0, 0, 0, 0.3)"
+          opacity={"0"}
+          className="box2"
+        >
+          <Flex flexDir={"column"} gap={"10"} p="1rem">
+            {!fileDropped && (
+              <Heading fontSize={"1.5rem"} fontWeight={"bold"}>
+                Upload File:
+              </Heading>
+            )}
+            {fileDropped && (
+              <Button
+                w={"7rem"}
+                h={"3rem"}
+                borderRadius={"1rem"}
+                bg={"#EE4266"}
+                color={"black"}
+                textShadow="0.5px 0.5px #EE4266"
+                onClick={handleGenerateClick}
               >
-                <Flex flexDir={"column"} alignItems={"center"}>
-                  <BsUpload fontSize={"9rem"} />
-                  <Text fontSize={""}>Drop File Here </Text>
-                </Flex>
+                Generate
+              </Button>
+            )}
+            <Input
+              type="file"
+              id="fileupload"
+              display={"none"}
+              onChange={handleFileUpload}
+            />
+            <FormLabel htmlFor="fileupload">
+              <Box
+                height={"34rem"}
+                border={"2px solid black"}
+                borderRadius={"10px"}
+                p={"1rem"}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
+              >
                 <Flex
                   flexDir={"column"}
-                  h={"30%"}
                   alignItems={"center"}
-                  justifyContent={"space-around"}
+                  h="80%"
+                  py={"6rem"}
                 >
-                  <Flex flexDir={"row"} gap={"10"} alignItems={"center"}>
-                    <Text>Or Click To Upload File</Text>
-                    <Image
-                      src="./assets/pdf-svgrepo-com.svg"
-                      h={"2rem"}
-                      w={"2rem"}
-                    />
+                  <Flex flexDir={"column"} alignItems={"center"}>
+                    <BsUpload fontSize={"9rem"} />
+                    <Text fontSize={""}>Drop File Here </Text>
                   </Flex>
-                  {fileDropped && (
-                    <Text color={"#387ADF"} fontWeight={"bold"}>
-                      👉 {fileDropped.name}
-                    </Text>
-                  )}
+                  <Flex
+                    flexDir={"column"}
+                    h={"30%"}
+                    alignItems={"center"}
+                    justifyContent={"space-around"}
+                  >
+                    <Flex flexDir={"row"} gap={"10"} alignItems={"center"}>
+                      <Text>Or Click To Upload File</Text>
+                      <Image
+                        src="./assets/pdf-svgrepo-com.svg"
+                        h={"2rem"}
+                        w={"2rem"}
+                      />
+                    </Flex>
+                    {fileDropped && (
+                      <Text color={"#387ADF"} fontWeight={"bold"}>
+                        👉 {fileDropped.name}
+                      </Text>
+                    )}
+                  </Flex>
                 </Flex>
-              </Flex>
-            </Box>
-          </FormLabel>
-        </Flex>
-      </Box>
-    </Flex>
+              </Box>
+            </FormLabel>
+          </Flex>
+        </Box>
+      </Flex>
+    </>
   );
 };
 

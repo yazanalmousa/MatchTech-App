@@ -4,7 +4,7 @@ import LandingPage from "./pages/LandingPage";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import ResultPage from "./pages/ResultPage";
-import  ResultContext  from "./Helper/Context";
+import ResultContext from "./Helper/Context";
 import { useState } from "react";
 
 function App() {
