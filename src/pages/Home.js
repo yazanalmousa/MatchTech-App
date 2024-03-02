@@ -22,16 +22,13 @@ const Home = ({ onFileDrop }) => {
       effect: (targets, config) => {
         return gsap.to(targets, { duration: config.duration, opacity: 1 });
       },
-      defaults: { duration: 5 }, //defaults get applied to any "config" object passed to the effect
+      defaults: { duration: 3 }, //defaults get applied to any "config" object passed to the effect
       extendTimeline: true, //now you can call the effect directly on any GSAP timeline to have the result immediately inserted in the position you define (default is sequenced at the end)
     });
 
-    // now we can use it like this:
-    // gsap.effects.fade(".box");
-    // gsap.effects.fade(".box2");
 
     let tl = gsap.timeline();
-    tl.fade(".box", { duration: 5 }).fade(".box2", { duration: 1 });
+    tl.fade(".box", { duration: 3 }).fade(".box2", { duration: 1 },"-=2");
 
     // or directly on timelines:
   }, []);
@@ -109,13 +106,7 @@ const Home = ({ onFileDrop }) => {
         bg={"white"}
         boxShadow="5px 5px rgba(0, 0, 0, 0.3)"
       >
-        <Flex
-          className="box2"
-          flexDir={"column"}
-          gap={"10"}
-          p="1rem"
-          opacity={"0"}
-        >
+        <Flex flexDir={"column"} gap={"10"} p="1rem">
           <Heading fontSize={"1.5rem"} fontWeight={"bold"}>
             TechMatch AI
           </Heading>
@@ -147,6 +138,8 @@ const Home = ({ onFileDrop }) => {
         flexGrow={"2"}
         bg={"white"}
         boxShadow="5px 5px rgba(0, 0, 0, 0.3)"
+        opacity={"0"}
+        className="box2"
       >
         <Flex flexDir={"column"} gap={"10"} p="1rem">
           {!fileDropped && (
